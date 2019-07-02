@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="12dp"
     android:background="@drawable/background"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/title"
@@ -31,21 +31,12 @@
         tools:text="A Florida woman who contracted a flesh eating bacteria in the Gulf of Mexico in Manatee County died just a week and a half after her injury." />
 
     <LinearLayout
+        android:id="@+id/author_linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         android:padding="4dp">
-
-        <TextView
-            android:id="@+id/source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:fontFamily="serif"
-            android:textColor="@color/Black"
-            android:textSize="18dp"
-            tools:text="Abcactionnews.com" />
 
         <TextView
             android:id="@+id/author"

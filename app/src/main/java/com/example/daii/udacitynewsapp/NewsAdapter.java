@@ -30,12 +30,13 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView descriptionText = listItemView.findViewById(R.id.description);
         descriptionText.setText(items.getmDescription());
 
-        TextView sourceText = listItemView.findViewById(R.id.source);
-        sourceText.setText(items.getmSource());
-
         TextView authorText = listItemView.findViewById(R.id.author);
-        authorText.setText(items.getmAuthor());
-
+        View linear = listItemView.findViewById(R.id.author_linear);
+        linear.setVisibility(View.GONE);
+        if (items.getmAuthor() != null) {
+            authorText.setText(items.getmAuthor());
+            linear.setVisibility(View.VISIBLE);
+        }
         return listItemView;
     }
 }

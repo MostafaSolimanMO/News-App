@@ -3,15 +3,14 @@ package com.example.daii.udacitynewsapp;
 public class News {
     private String mTitle;
     private String mDescription;
-    private String mSource;
     private String mAuthor;
+    private String mArtUrl;
 
-    public News(String title, String description, String source, String author) {
+    public News(String title, String description, String author, String url) {
         mTitle = title;
         mDescription = description;
-        mSource = source;
         mAuthor = author;
-
+        mArtUrl = url;
     }
 
     public String getmTitle() {
@@ -22,13 +21,12 @@ public class News {
         return mDescription;
     }
 
-    public String getmSource() {
-        return mSource;
-    }
-
     public String getmAuthor() {
         return mAuthor;
     }
 
+    public String getmArtUrl() {
+        return mArtUrl;
+    }
 }
 

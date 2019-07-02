@@ -3,6 +3,10 @@ package com.example.daii.udacitynewsapp;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,14 +90,34 @@ public class QueryUtils {
         return output.toString();
     }
 
-    private static List<News> extractFeatureFromJson(String booksJSON) {
-        if (TextUtils.isEmpty(booksJSON)) {
+    private static List<News> extractFeatureFromJson(String newsJSON) {
+        if (TextUtils.isEmpty(newsJSON)) {
             return null;
         }
         List<News> news = new ArrayList<>();
+        try {
+            JSONObject base = new JSONObject(newsJSON);
+            JSONArray articles = base.getJSONArray("articles");
+            for (int i = 0; i < articles.length(); i++) {
+                JSONObject currentArticles = articles.getJSONObject(i);
+                String title = currentArticles.getString("title");
+                String description = currentArticles.getString("description");
+                String author;
+                String authorRoot = currentArticles.getString("author");
+                if (authorRoot != "null") {
+                    author = authorRoot;
+                } else {
+                    author = null;
+                }
+                String url = currentArticles.getString("url");
 
+                News news1 = new News(title, description, author, url);
+                news.add(news1);
+            }
 
-
+        } catch (JSONException e) {
+            Log.e("QueryUtils", "Problem parsing the Books JSON results", e);
+        }
         return news;
     }
 }

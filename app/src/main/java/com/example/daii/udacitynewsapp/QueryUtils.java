@@ -101,7 +101,15 @@ public class QueryUtils {
             for (int i = 0; i < articles.length(); i++) {
                 JSONObject currentArticles = articles.getJSONObject(i);
                 String title = currentArticles.getString("title");
-                String description = currentArticles.getString("description");
+
+                String description;
+                String descriptionRoot = currentArticles.getString("description");
+                if (descriptionRoot != "null") {
+                    description = descriptionRoot;
+                } else {
+                    description = null;
+                }
+
                 String author;
                 String authorRoot = currentArticles.getString("author");
                 if (authorRoot != "null") {

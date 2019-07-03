@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         Uri baseUri = Uri.parse(NEWS_API_URL);
 
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("country", "us");
+        uriBuilder.appendQueryParameter("country", "eg");
         uriBuilder.appendQueryParameter("apiKey", API_KEY);
 
         return new NewsLoader(this, uriBuilder.toString());

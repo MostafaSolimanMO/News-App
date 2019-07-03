@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -90,5 +93,41 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         mAdapter.clear();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.Settings) {
+            Intent intent = new Intent(MainActivity.this, settings_activity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.Refresh) {
+            ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
+                    || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                mAdapter.clear();
+                mTextView.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                getSupportLoaderManager().restartLoader(1, null, this);
+
+            } else if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
+                    || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
+                mAdapter.clear();
+                mTextView.setVisibility(View.VISIBLE);
+                mTextView.setText("No Internet Connection");
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

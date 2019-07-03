@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="settings_country_by_labels">
+        <item>Egypt</item>
+        <item>USA</item>
+    </string-array>
+    <string-array name="settings_country_by_values">
+        <item>eg</item>
+        <item>us</item>
+    </string-array>
+
+    <string-array name="settings_topic_by_labels">
+        <item>General</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+    </string-array>
+    <string-array name="settings_topic_by_values">
+        <item>general</item>
+        <item>entertainment</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
+
+</resources>

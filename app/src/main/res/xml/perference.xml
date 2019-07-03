@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="eg"
+        android:entries="@array/settings_country_by_labels"
+        android:entryValues="@array/settings_country_by_values"
+        android:key="country"
+        android:title="Order By Country" />
+    <ListPreference
+        android:defaultValue="general"
+        android:entries="@array/settings_topic_by_labels"
+        android:entryValues="@array/settings_topic_by_values"
+        android:key="topic"
+        android:title="Order By Topic" />
+</PreferenceScreen>

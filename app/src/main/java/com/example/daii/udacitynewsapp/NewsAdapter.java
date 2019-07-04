@@ -17,7 +17,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
     private static final String SPLIT_MARK = " - ";
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;

@@ -2,10 +2,12 @@ package com.example.daii.udacitynewsapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>> {
+public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?";
     private static final String API_KEY = "a36119b99ae8479aaf2301b6a976a388";
@@ -72,10 +74,19 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String country = sharedPrefs.getString(
+                "country",
+                "eg");
+        String topic = sharedPrefs.getString(
+                "topic",
+                "general");
+
         Uri baseUri = Uri.parse(NEWS_API_URL);
 
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("country", "eg");
+        uriBuilder.appendQueryParameter("country", country);
+        uriBuilder.appendQueryParameter("category", topic);
         uriBuilder.appendQueryParameter("apiKey", API_KEY);
 
         return new NewsLoader(this, uriBuilder.toString());
@@ -95,6 +106,15 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mAdapter.clear();
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (key.equals("country") && key.equals("topic")) {
+            mAdapter.clear();
+            mTextView.setVisibility(View.GONE);
+            mTextView.setVisibility(View.VISIBLE);
+            getSupportLoaderManager().restartLoader(1, null, this);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

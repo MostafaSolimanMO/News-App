@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--Countries-->
     <string-array name="settings_country_by_labels">
+        <item>Argentina</item>
+        <item>Austria</item>
         <item>Egypt</item>
-        <item>USA</item>
+        <item>Hong Kong</item>
+        <item>Ireland</item>
+        <item>Japan</item>
+        <item>Latvia</item>
+        <item>Nigeria</item>
+        <item>Poland</item>
+        <item>Sweden</item>
+        <item>Thailand</item>
+        <item>United Arab Emirates</item>
+        <item>United States</item>
     </string-array>
     <string-array name="settings_country_by_values">
+        <item>ar</item>
+        <item>au</item>
         <item>eg</item>
+        <item>hk</item>
+        <item>ie</item>
+        <item>jp</item>
+        <item>lv</item>
+        <item>ng</item>
+        <item>pl</item>
+        <item>se</item>
+        <item>th</item>
+        <item>ae</item>
         <item>us</item>
     </string-array>
 
-    <string-array name="settings_topic_by_labels">
+    <!--Categories-->
+    <string-array name="settings_category_by_labels">
         <item>General</item>
         <item>Entertainment</item>
         <item>Health</item>
@@ -18,7 +41,7 @@
         <item>Sports</item>
         <item>Technology</item>
     </string-array>
-    <string-array name="settings_topic_by_values">
+    <string-array name="settings_category_by_values">
         <item>general</item>
         <item>entertainment</item>
         <item>health</item>

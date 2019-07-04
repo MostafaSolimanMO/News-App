@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String country = sharedPrefs.getString(
                 "country",
-                "eg");
+                "us");
         String topic = sharedPrefs.getString(
-                "topic",
+                "category",
                 "general");
 
         Uri baseUri = Uri.parse(NEWS_API_URL);
@@ -128,6 +128,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         int id = item.getItemId();
         if (id == R.id.Settings) {
             Intent intent = new Intent(MainActivity.this, settings_activity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.About) {
+            Intent intent = new Intent(MainActivity.this, about.class);
             startActivity(intent);
             return true;
         }

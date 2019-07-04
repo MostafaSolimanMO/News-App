@@ -25,8 +25,8 @@ public class settings_activity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.perference);
             Preference country = findPreference("country");
             bindPreferenceSummaryToValue(country);
-            Preference topic = findPreference("topic");
-            bindPreferenceSummaryToValue(topic);
+            Preference category = findPreference("category");
+            bindPreferenceSummaryToValue(category);
         }
 
         @Override

@@ -9,7 +9,7 @@
         android:layout_centerInParent="true"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="This app is the final exercise project for Udacity Android Basics Networking Course. \n \nThanks to NEWS API."
+        android:text="This's the final exercise project for Udacity Android Basics Networking Course. \n \nThanks to NEWS API."
         android:textColor="@color/Black"
         android:textSize="24sp" />
 </RelativeLayout>

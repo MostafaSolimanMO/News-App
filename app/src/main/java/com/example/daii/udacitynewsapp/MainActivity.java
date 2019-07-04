@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 startActivity(linkNew);
             }
         });
+        LoaderAndConnection("init");
+    }
+
+    public void LoaderAndConnection(String loader) {
 
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
@@ -63,12 +67,22 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             mTextView.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
             LoaderManager loaderManager = getSupportLoaderManager();
-            loaderManager.initLoader(1, null, MainActivity.this);
-
+            if (loader == "init") {
+                loaderManager.initLoader(1, null, MainActivity.this);
+            }
+            if (loader == "restart") {
+                getSupportLoaderManager().restartLoader(1, null, this);
+            }
         } else if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
-
-            mTextView.setText("No Internet Connection");
+            if (loader == "init") {
+                mTextView.setText("No Internet Connection");
+            }
+            if (loader == "restart") {
+                mAdapter.clear();
+                mTextView.setVisibility(View.VISIBLE);
+                mTextView.setText("No Internet Connection");
+            }
         }
     }
 
@@ -83,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 "general");
 
         Uri baseUri = Uri.parse(NEWS_API_URL);
-
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("country", country);
         uriBuilder.appendQueryParameter("category", topic);
@@ -137,20 +150,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             return true;
         }
         if (id == R.id.Refresh) {
-            ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
-                    || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-                mAdapter.clear();
-                mTextView.setVisibility(View.GONE);
-                mProgressBar.setVisibility(View.VISIBLE);
-                getSupportLoaderManager().restartLoader(1, null, this);
-
-            } else if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
-                    || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
-                mAdapter.clear();
-                mTextView.setVisibility(View.VISIBLE);
-                mTextView.setText("No Internet Connection");
-            }
+            LoaderAndConnection("restart");
             return true;
         }
         return super.onOptionsItemSelected(item);

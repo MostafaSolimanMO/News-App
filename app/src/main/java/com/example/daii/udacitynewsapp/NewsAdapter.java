@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 public class NewsAdapter extends ArrayAdapter<News> {
 
     public NewsAdapter(Context context, ArrayList<News> news) {

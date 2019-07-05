@@ -52,10 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:fontFamily="sans-serif-thin"
+            android:fontFamily="sans-serif"
             android:maxLines="1"
             android:textSize="16dp"
             tools:text="David Montanaro" />
-
     </LinearLayout>
 </LinearLayout>

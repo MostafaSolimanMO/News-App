@@ -1,4 +1,4 @@
-# News-App
+# News App
 Final exercise project for Udacity Android Basics Networking Course
 
 ## Project Overview

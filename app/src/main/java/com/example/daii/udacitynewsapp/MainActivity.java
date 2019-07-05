@@ -28,20 +28,20 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?";
     private static final String API_KEY = "a36119b99ae8479aaf2301b6a976a388";
     private NewsAdapter mAdapter;
-    private ProgressBar mProgressBar;
-    private TextView mTextView;
+    String restartLoader;
+    String initLoader;
+    private ProgressBar progressBar;
+    private TextView mEmptyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mProgressBar = findViewById(R.id.loading_bar);
-        mProgressBar.setVisibility(View.INVISIBLE);
+        progressBar = findViewById(R.id.loading_bar);
 
-        mTextView = findViewById(R.id.message);
-        mTextView.setText("No news available");
-        mTextView.setVisibility(View.VISIBLE);
+        mEmptyTextView = findViewById(R.id.text);
+        mEmptyTextView.setText("No news available");
 
         ListView listView = findViewById(R.id.list);
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
@@ -55,33 +55,33 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 startActivity(linkNew);
             }
         });
-        LoaderAndConnection("init");
+        LoaderAndConnection(initLoader);
     }
 
     public void LoaderAndConnection(String loader) {
-
         ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
         if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
 
-            mTextView.setVisibility(View.GONE);
-            mProgressBar.setVisibility(View.VISIBLE);
+            mEmptyTextView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             LoaderManager loaderManager = getSupportLoaderManager();
-            if (loader == "init") {
+            if (loader == initLoader) {
                 loaderManager.initLoader(1, null, MainActivity.this);
             }
-            if (loader == "restart") {
+            if (loader == restartLoader) {
                 getSupportLoaderManager().restartLoader(1, null, this);
             }
         } else if (conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
-            if (loader == "init") {
-                mTextView.setText("No Internet Connection");
+            if (loader == initLoader) {
+                mEmptyTextView.setText("No Internet Connection");
             }
-            if (loader == "restart") {
+            if (loader == restartLoader) {
                 mAdapter.clear();
-                mTextView.setVisibility(View.VISIBLE);
-                mTextView.setText("No Internet Connection");
+                mEmptyTextView.setVisibility(View.VISIBLE);
+                mEmptyTextView.setText("No Internet Connection");
             }
         }
     }
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
-        mProgressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         mAdapter.clear();
         if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
@@ -119,15 +119,18 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mAdapter.clear();
     }
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals("country") && key.equals("topic")) {
+        if (key.equals("country") || key.equals("category")) {
             mAdapter.clear();
-            mTextView.setVisibility(View.GONE);
-            mTextView.setVisibility(View.VISIBLE);
+            mEmptyTextView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             getSupportLoaderManager().restartLoader(1, null, this);
+
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             return true;
         }
         if (id == R.id.Refresh) {
-            LoaderAndConnection("restart");
+            LoaderAndConnection(restartLoader);
             return true;
         }
         return super.onOptionsItemSelected(item);

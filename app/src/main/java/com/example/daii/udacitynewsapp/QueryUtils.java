@@ -29,17 +29,16 @@ public class QueryUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem in HTTP request");
         }
-        List<News> books = extractFeatureFromJson(jsonResponse);
-        return books;
+        List<News> news = extractFeatureFromJson(jsonResponse);
+        return news;
     }
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
             url = new URL(stringUrl);
-
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL", e);
+            Log.e(LOG_TAG, "Problem in building the URL", e);
         }
         return url;
     }
@@ -100,6 +99,7 @@ public class QueryUtils {
             JSONArray articles = base.getJSONArray("articles");
             for (int i = 0; i < articles.length(); i++) {
                 JSONObject currentArticles = articles.getJSONObject(i);
+
                 String title = currentArticles.getString("title");
 
                 String description;
@@ -117,6 +117,7 @@ public class QueryUtils {
                 } else {
                     author = null;
                 }
+
                 String url = currentArticles.getString("url");
 
                 News news1 = new News(title, description, author, url);
@@ -124,7 +125,7 @@ public class QueryUtils {
             }
 
         } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the Books JSON results", e);
+            Log.e("QueryUtils", "Problem parsing News JSON results", e);
         }
         return news;
     }

@@ -6,4 +6,5 @@ The goal is to show the headline News using [News API](https://newsapi.org/) whi
 
 ## Branches
 master: Using ListView to show news
+
 RecyclerView_instead_of_ListView: Using RecyclerView instead of ListView to list news

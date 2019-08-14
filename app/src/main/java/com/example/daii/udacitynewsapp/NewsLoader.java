@@ -3,7 +3,7 @@ package com.example.daii.udacitynewsapp;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class NewsLoader extends AsyncTaskLoader {
     private String mUrl;
@@ -19,11 +19,11 @@ public class NewsLoader extends AsyncTaskLoader {
     }
 
     @Override
-    public List<News> loadInBackground() {
+    public ArrayList<News> loadInBackground() {
         if (mUrl == null) {
             return null;
         }
-        List<News> news = QueryUtils.fetchNewsData(mUrl);
+        ArrayList<News> news = (ArrayList<News>) QueryUtils.fetchNewsData(mUrl);
         return news;
     }
 }

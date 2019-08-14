@@ -1,63 +1,96 @@
 package com.example.daii.udacitynewsapp;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
-public class NewsAdapter extends ArrayAdapter<News> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+    private ArrayList<News> mNews;
 
-    private static final String SPLIT_MARK = " - ";
-
-    public NewsAdapter(Context context, ArrayList<News> news) {
-        super(context, 0, news);
+    public NewsAdapter(ArrayList<News> news) {
+        mNews = news;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.news_list_item, parent, false);
+    public NewsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        Context context = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.news_list_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        boolean shouldAttachToParentImmediately = false;
+        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        return new NewsViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(NewsViewHolder holder, int position) {
+        News news = mNews.get(position);
+        holder.setDetails(news);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mNews.size();
+    }
+
+    public void setNewsData(ArrayList<News> newsData) {
+        mNews = newsData;
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        int size = mNews.size();
+        mNews.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
+        private static final String SPLIT_MARK = " - ";
+        public final TextView mTitleText;
+        public final TextView mSourceText;
+        public final TextView mDescriptionText;
+        public final TextView mAuthorText;
+
+        public NewsViewHolder(View itemView) {
+            super(itemView);
+            mTitleText = itemView.findViewById(R.id.title);
+            mSourceText = itemView.findViewById(R.id.source);
+            mDescriptionText = itemView.findViewById(R.id.description);
+            mAuthorText = itemView.findViewById(R.id.author);
+
         }
-        News items = getItem(position);
 
-        String allTitle = items.getmTitle();
-        String[] splitTitle = allTitle.split(SPLIT_MARK);
-        String title = splitTitle[0];
-        String source = splitTitle[1];
+        public void setDetails(News news) {
+            String allTitle = news.getmTitle();
+            String[] splitTitle = allTitle.split(SPLIT_MARK);
+            String title = splitTitle[0];
+            String source = splitTitle[1];
 
-        TextView titleText = listItemView.findViewById(R.id.title);
-        titleText.setText(title);
+            mTitleText.setText(title);
+            mSourceText.setText(source);
+            mDescriptionText.setVisibility(View.GONE);
 
-        TextView sourceText = listItemView.findViewById(R.id.source);
-        sourceText.setText(source);
-
-
-        TextView descriptionText = listItemView.findViewById(R.id.description);
-        descriptionText.setVisibility(View.GONE);
-
-        String description = items.getmDescription();
-        if (description != null) {
-            if (description.contains(SPLIT_MARK)) {
-                String[] finalDescription = description.split(SPLIT_MARK);
-                description = finalDescription[0];
+            String description = news.getmDescription();
+            if (description != null) {
+                if (description.contains(SPLIT_MARK)) {
+                    String[] finalDescription = description.split(SPLIT_MARK);
+                    description = finalDescription[0];
+                }
+                mDescriptionText.setVisibility(View.VISIBLE);
+                mDescriptionText.setText(description);
             }
-            descriptionText.setVisibility(View.VISIBLE);
-            descriptionText.setText(description);
-        }
 
-        TextView authorText = listItemView.findViewById(R.id.author);
-        authorText.setVisibility(View.GONE);
-        if (items.getmAuthor() != null && items.getmAuthor().length() < 20) {
-            authorText.setVisibility(View.VISIBLE);
-            authorText.setText(items.getmAuthor());
+            mAuthorText.setVisibility(View.GONE);
+            if (news.getmAuthor() != null && news.getmAuthor().length() < 20) {
+                mAuthorText.setVisibility(View.VISIBLE);
+                mAuthorText.setText(news.getmAuthor());
+            }
         }
-        return listItemView;
     }
 }
+

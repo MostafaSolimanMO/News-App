@@ -11,27 +11,27 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<News>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?";
     private static final String API_KEY = "a36119b99ae8479aaf2301b6a976a388";
-    private NewsAdapter mAdapter;
     String restartLoader;
     String initLoader;
     private ProgressBar progressBar;
     private TextView mEmptyTextView;
+    private RecyclerView mRecyclerView;
+    private NewsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +43,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mEmptyTextView = findViewById(R.id.text);
         mEmptyTextView.setText("No news available");
 
-        ListView listView = findViewById(R.id.list);
-        mAdapter = new NewsAdapter(this, new ArrayList<News>());
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                News newLink = mAdapter.getItem(position);
-                Uri newUri = Uri.parse(newLink.getmArtUrl());
-                Intent linkNew = new Intent(Intent.ACTION_VIEW, newUri);
-                startActivity(linkNew);
-            }
-        });
+        mRecyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter = new NewsAdapter(new ArrayList<News>());
+        mRecyclerView.setAdapter(mAdapter);
         LoaderAndConnection(initLoader);
     }
 
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     }
 
     @Override
-    public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+    public Loader<ArrayList<News>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String country = sharedPrefs.getString(
                 "country",
@@ -106,24 +99,24 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     }
 
     @Override
-    public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
+    public void onLoadFinished(Loader<ArrayList<News>> loader, ArrayList<News> news) {
         progressBar.setVisibility(View.GONE);
         mAdapter.clear();
         if (news != null && !news.isEmpty()) {
-            mAdapter.addAll(news);
+            mAdapter.setNewsData(news);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<News>> loader) {
-        mAdapter.clear();
+    public void onLoaderReset(Loader<ArrayList<News>> loader) {
+        mAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (key.equals("country") || key.equals("category")) {
-            mAdapter.clear();
+            mAdapter.notifyDataSetChanged();
             mEmptyTextView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             getSupportLoaderManager().restartLoader(1, null, this);

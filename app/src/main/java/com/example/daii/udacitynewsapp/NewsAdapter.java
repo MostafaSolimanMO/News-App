@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private ArrayList<News> mNews;
+    private NewsOnClick onClickItem;
 
-    public NewsAdapter(ArrayList<News> news) {
+    public NewsAdapter(ArrayList<News> news, NewsOnClick listener) {
         mNews = news;
+        onClickItem = listener;
     }
 
     @Override
@@ -49,20 +50,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyItemRangeRemoved(0, size);
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-        private static final String SPLIT_MARK = " - ";
-        public final TextView mTitleText;
-        public final TextView mSourceText;
-        public final TextView mDescriptionText;
-        public final TextView mAuthorText;
+    interface NewsOnClick {
+        void onClick(String uriNews);
+    }
 
-        public NewsViewHolder(View itemView) {
-            super(itemView);
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String SPLIT_MARK = " - ";
+        public final TextView mTitleText, mSourceText, mDescriptionText, mAuthorText;
+
+        public NewsViewHolder(View view) {
+            super(view);
             mTitleText = itemView.findViewById(R.id.title);
             mSourceText = itemView.findViewById(R.id.source);
             mDescriptionText = itemView.findViewById(R.id.description);
             mAuthorText = itemView.findViewById(R.id.author);
+            itemView.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            News news = mNews.get(getAdapterPosition());
+            String uriNews = news.getmArtUrl();
+            onClickItem.onClick(uriNews);
         }
 
         public void setDetails(News news) {

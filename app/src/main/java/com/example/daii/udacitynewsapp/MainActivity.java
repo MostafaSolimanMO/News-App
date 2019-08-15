@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<News>>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<News>>, SharedPreferences.OnSharedPreferenceChangeListener, NewsAdapter.NewsOnClick {
 
     private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?";
     private static final String API_KEY = "a36119b99ae8479aaf2301b6a976a388";
@@ -46,9 +46,16 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mRecyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new NewsAdapter(new ArrayList<News>());
+        mAdapter = new NewsAdapter(new ArrayList<News>(), this);
         mRecyclerView.setAdapter(mAdapter);
         LoaderAndConnection(initLoader);
+    }
+
+    @Override
+    public void onClick(String uriNews) {
+        Uri newUri = Uri.parse(uriNews);
+        Intent linkNew = new Intent(Intent.ACTION_VIEW, newUri);
+        startActivity(linkNew);
     }
 
     public void LoaderAndConnection(String loader) {
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     @Override
     public void onLoadFinished(Loader<ArrayList<News>> loader, ArrayList<News> news) {
         progressBar.setVisibility(View.GONE);
-        mAdapter.clear();
+        mAdapter.notifyDataSetChanged();
         if (news != null && !news.isEmpty()) {
             mAdapter.setNewsData(news);
         }
@@ -111,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public void onLoaderReset(Loader<ArrayList<News>> loader) {
         mAdapter.notifyDataSetChanged();
     }
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
@@ -123,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

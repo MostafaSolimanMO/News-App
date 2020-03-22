@@ -13,19 +13,19 @@ public class News {
         mArtUrl = url;
     }
 
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public String getmDescription() {
+    public String getDescription() {
         return mDescription;
     }
 
-    public String getmAuthor() {
+    public String getAuthor() {
         return mAuthor;
     }
 
-    public String getmArtUrl() {
+    public String getArtUrl() {
         return mArtUrl;
     }
 }

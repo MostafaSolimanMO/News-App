@@ -1,7 +1,7 @@
 package com.example.daii.udacitynewsapp;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,12 +70,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @Override
         public void onClick(View v) {
             News news = mNews.get(getAdapterPosition());
-            String uriNews = news.getmArtUrl();
+            String uriNews = news.getArtUrl();
             onClickItem.onClick(uriNews);
         }
 
         public void setDetails(News news) {
-            String allTitle = news.getmTitle();
+            String allTitle = news.getTitle();
             String[] splitTitle = allTitle.split(SPLIT_MARK);
             String title = splitTitle[0];
             String source = splitTitle[1];
@@ -84,7 +84,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mSourceText.setText(source);
             mDescriptionText.setVisibility(View.GONE);
 
-            String description = news.getmDescription();
+            String description = news.getDescription();
             if (description != null) {
                 if (description.contains(SPLIT_MARK)) {
                     String[] finalDescription = description.split(SPLIT_MARK);
@@ -95,9 +95,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             }
 
             mAuthorText.setVisibility(View.GONE);
-            if (news.getmAuthor() != null && news.getmAuthor().length() < 20) {
+            if (news.getAuthor() != null && news.getAuthor().length() < 20) {
                 mAuthorText.setVisibility(View.VISIBLE);
-                mAuthorText.setText(news.getmAuthor());
+                mAuthorText.setText(news.getAuthor());
             }
         }
     }

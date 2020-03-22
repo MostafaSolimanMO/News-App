@@ -8,11 +8,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<News>>, SharedPreferences.OnSharedPreferenceChangeListener, NewsAdapter.NewsOnClick {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<News>>, SharedPreferences.OnSharedPreferenceChangeListener, NewsAdapter.NewsOnClick {
 
     private static final String NEWS_API_URL = "https://newsapi.org/v2/top-headlines?";
     private static final String API_KEY = "a36119b99ae8479aaf2301b6a976a388";
@@ -141,12 +141,12 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Settings) {
-            Intent intent = new Intent(MainActivity.this, settings_activity.class);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
         if (id == R.id.About) {
-            Intent intent = new Intent(MainActivity.this, about.class);
+            Intent intent = new Intent(MainActivity.this, About.class);
             startActivity(intent);
             return true;
         }

@@ -45,9 +45,7 @@ public class QueryUtils {
 
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
-        if (url == null) {
-            return jsonResponse;
-        }
+        if (url == null) return jsonResponse;
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {

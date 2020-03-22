@@ -1,9 +1,9 @@
 package com.example.daii.udacitynewsapp;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class about extends AppCompatActivity {
+public class About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

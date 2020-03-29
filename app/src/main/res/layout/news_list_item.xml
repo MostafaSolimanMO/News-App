@@ -15,7 +15,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="4"
-        android:textColor="@color/Black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         tools:text="Florida woman dies from flesheating bacteria after visiting popular Manatee County beach - ABC Action News" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:fontFamily="sans-serif-condensed-medium"
-            android:textColor="@color/Black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18dp"
             tools:text="BBC" />
         <TextView

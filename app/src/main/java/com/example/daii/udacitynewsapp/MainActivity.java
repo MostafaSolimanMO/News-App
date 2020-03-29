@@ -143,12 +143,12 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Settings) {
-            Intent intent = new Intent(MainActivity.this, settings_activity.class);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
         if (id == R.id.About) {
-            Intent intent = new Intent(MainActivity.this, about.class);
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
             return true;
         }

@@ -1,4 +1,4 @@
-package com.example.daii.udacitynewsapp;
+package com.example.daii.udacitynewsapp.View;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,7 +6,10 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.daii.udacitynewsapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

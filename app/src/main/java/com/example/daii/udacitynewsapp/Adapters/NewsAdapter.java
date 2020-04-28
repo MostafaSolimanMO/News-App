@@ -1,20 +1,23 @@
-package com.example.daii.udacitynewsapp;
+package com.example.daii.udacitynewsapp.Adapters;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.daii.udacitynewsapp.Model.Article;
+import com.example.daii.udacitynewsapp.R;
+
+import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
-    private ArrayList<News> mNews;
+    private List<Article> articleList;
     private NewsOnClick onClickItem;
 
-    public NewsAdapter(ArrayList<News> news, NewsOnClick listener) {
-        mNews = news;
+    public NewsAdapter(NewsOnClick listener) {
         onClickItem = listener;
     }
 
@@ -30,27 +33,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position) {
-        News news = mNews.get(position);
-        holder.setDetails(news);
+        Article article = articleList.get(position);
+        holder.setDetails(article);
     }
 
     @Override
     public int getItemCount() {
-        return mNews.size();
+        if (articleList != null)
+            return articleList.size();
+        else return 0;
     }
 
-    public void setNewsData(ArrayList<News> newsData) {
-        mNews = newsData;
+    public void setNewsData(List<Article> articlesData) {
+        articleList = articlesData;
         notifyDataSetChanged();
     }
 
     public void clear() {
-        int size = mNews.size();
-        mNews.clear();
+        int size = articleList.size();
+        articleList.clear();
         notifyItemRangeRemoved(0, size);
     }
 
-    interface NewsOnClick {
+    public interface NewsOnClick {
         void onClick(String uriNews);
     }
 
@@ -69,13 +74,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         @Override
         public void onClick(View v) {
-            News news = mNews.get(getAdapterPosition());
-            String uriNews = news.getArtUrl();
+            Article articles = articleList.get(getAdapterPosition());
+            String uriNews = articles.getUrl();
             onClickItem.onClick(uriNews);
         }
 
-        public void setDetails(News news) {
-            String allTitle = news.getTitle();
+        public void setDetails(Article articles) {
+            String allTitle = articles.getTitle();
             String[] splitTitle = allTitle.split(SPLIT_MARK);
             String title = splitTitle[0];
             String source = splitTitle[1];
@@ -84,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mSourceText.setText(source);
             mDescriptionText.setVisibility(View.GONE);
 
-            String description = news.getDescription();
+            String description = articles.getDescription();
             if (description != null) {
                 if (description.contains(SPLIT_MARK)) {
                     String[] finalDescription = description.split(SPLIT_MARK);
@@ -95,9 +100,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             }
 
             mAuthorText.setVisibility(View.GONE);
-            if (news.getAuthor() != null && news.getAuthor().length() < 20) {
+            if (articles.getAuthor() != null && articles.getAuthor().length() < 20) {
                 mAuthorText.setVisibility(View.VISIBLE);
-                mAuthorText.setText(news.getAuthor());
+                mAuthorText.setText(articles.getAuthor());
             }
         }
     }

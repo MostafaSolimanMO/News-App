@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.NewsO
             swipeRefreshLayout.setRefreshing(false);
         });
     }
-
+    // Change
     private void callData() {
         viewModel.retry();
         viewModel.getAllArticle().observe(this, articles -> mAdapter.setNewsData(articles));
